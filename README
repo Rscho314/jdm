@@ -1,0 +1,38 @@
+JDM is a J language data manipulation library aimed at small and messy data.
+Copyright (C) 2019  Raoul Schorer
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+# Rationale
+There are a plethora of statistical and data-wrangling tools. However,
+all of those want to "look serious" and are therefore geared at "indus-
+trial strength" applications. This project takes an alternative view in
+that it is specifically aimed at the manipulation of small and irregular
+datasets efficiently, in terms of user-time efficiency. Typical applica-
+tions would be clinical trials in medicine, or the analysis of any data-
+set constituted of non-automated harvested data.
+
+# User story
+Start by asking the user for some detail about the dataset (skippable):
+
+- index rows/columns?
+
+# Ideas
+- make testing facility
+- make utility functions
+- choose a metadata format
+- memoize the basic structure of the dataset for dplyer-like functionality
+- record complete history of data transorms with immediate undo redo
+- make every statistic change in real-time
+- create a dedicated UI

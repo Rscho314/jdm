@@ -1,0 +1,9 @@
+NB. Copyright (C) 2019  Raoul Schorer
+NB. project:
+NB.
+NB. defines list of source files.
+NB. path defaults to project directory.
+
+init.ijs
+utils.ijs
+data_loader.ijs
