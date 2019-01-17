@@ -21,11 +21,36 @@ load_data=: 3 : 0
 	readcsv jpath y
 )
 
+droprows =: 4 : 0
+NB. x is int array for rows skip
+NB. y is data
+	y {~ x negateselect y
+)
+
+dropcols =: 4 : 0
+NB. x is int array for cols skip
+NB. y is data
+	y {"1~ x negateselect |: y
+)
+
 sanitize_name=: 3 : 0
 NB. replace spaces
 	y =. (' ';'_') replace y
 NB. TODO add rules
 	y
+)
+
+sanitize_asmultiindex=: 3 : 0
+NB. sanitize_asmultiindex 'a';'';'b';'c';'';''
+NB. y is head col or head row
+NB. fills in empty cells with left value
+	shape =. $ y
+	starts =. a:~: y
+	filled =. fillboxedfromleft"1 y
+	starts_flat =. , starts
+	filled_flat =. , filled
+	nums =. ('_',":) each ;/ ; starts_flat <@i.@:#;.1 filled_flat
+	shape $ ;/ ;"1 |: filled_flat ,: nums
 )
 
 sanitize_headrow=: 0 : 0
@@ -42,28 +67,24 @@ NB. y is 2D head rows
 NB. returns 3D array with each slice 1 head row
 NB. mangled names are guaranteed unique in rows or cols
 NB. BUT NOT between rows and cols!
-	names         =. sanitize_name each y
+	names         =. ('|'&,&.|.) each sanitize_asmultiindex y
 	nums          =. ;/"1 a $ i. {: ] a =. $ y	
-	num_chars     =. ('_',":) each nums
 	prefix_roll   =. |: <@,@:;\"1 |: names
-	unique_mangle =. <@,@:;"1 |: prefix_roll ,: num_chars
+	unique_mangle =. <@,@:;"1 |: prefix_roll ,: ": each nums
 	(4 , ($y)) ($,) y , names , nums , |: unique_mangle
 )
 
 restructure_original =: 4 : 0
 NB. uses header info to restructure original data
 NB. into a mangled flat array
-NB. x is SKIPROWS SKIPCOLS NIDROWS NIDCOLS
-NB. y is original data
+NB. x is NIDROWS NIDCOLS
+NB. y is original/optionally skipped data
 NB. returns mangled_rows mangled_cols headless_data
-	skiprows      =. {. x
-	skipcols      =. 1 { x
-	nidrows       =. 2 { x
-	nidcols       =. {: x
-	skipped_data  =. skipcols }."1 skiprows }. y
-	headless_data =. nidcols }."1 nidrows }. skipped_data
-	mangled_rows  =. sanitize_head nidrows {. nidcols }."1 skipped_data
-	mangled_cols  =. sanitize_head |: nidcols {."1 nidrows }. skipped_data
+	nidcols =. {. x
+	nidrows =. {: x
+	headless_data =. nidcols }."1 nidrows }. y
+	mangled_rows  =. sanitize_head nidrows {. nidcols }."1 y
+	mangled_cols  =. sanitize_head |: nidcols {."1 nidrows }. y
 	mangled_rows ; mangled_cols ; < headless_data
 )
 

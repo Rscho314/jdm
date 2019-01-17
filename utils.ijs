@@ -8,3 +8,16 @@ NB. y the input string : str
 	replacement=.>{:x
 	replacement (y I.@:= replaced)} y
 )
+
+NB. Boxutils==========================
+NB. https://code.jsoftware.com/wiki/Vocabulary/bslashdot
+fillboxedfromleft =: [^:((<'') ~: [)/\.&.(,&a:)&.|.
+
+
+NB. Generalutils======================
+negateselect =: 4 : 0
+NB. gives indices of elems not selected by x
+NB. x is int array of shape 1 _
+NB. y is array
+	I. -.+/ (,x) =/ i.#y
+)

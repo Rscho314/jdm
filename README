@@ -36,3 +36,6 @@ Start by asking the user for some detail about the dataset (skippable):
 - record complete history of data transorms with immediate undo redo
 - make every statistic change in real-time
 - create a dedicated UI
+
+# TODO
+- put magic thingies in a config file
